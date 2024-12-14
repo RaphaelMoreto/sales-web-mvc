@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using sales_web_mvc.Models;
+using sales_web_mvc.Models.ViewModels;
 using System.Diagnostics;
 
 namespace sales_web_mvc.Controllers
@@ -15,6 +15,7 @@ namespace sales_web_mvc.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Email"] = "raphaelqmoreto@gmail.com";
             return View();
         }
 
