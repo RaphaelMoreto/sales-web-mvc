@@ -34,6 +34,7 @@ namespace sales_web_mvc
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
