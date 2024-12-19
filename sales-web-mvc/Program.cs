@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Pomelo.EntityFrameworkCore.MySql.Internal;
 using sales_web_mvc.Data;
-using System.Configuration;
 
 namespace sales_web_mvc
 {
@@ -20,10 +16,19 @@ namespace sales_web_mvc
                     mysqlOptions => mysqlOptions.MigrationsAssembly("sales-web-mvc")
                 ));
 
+            builder.Services.AddScoped<SeedingService>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            //CRIA UM ESPAÇO TEMPORÁRIO DENTRO DO SISTEMA DE GERENCIAMENTO DE SERVIÇOS DO ASP.NET CORE, CONHECIDO COMO "Dependecy Injection (DI)"
+            using (var scope = app.Services.CreateScope()) //ESCOPO SENDO CRIADO
+            {
+                var seedingServices = scope.ServiceProvider.GetRequiredService<SeedingService>();
+                seedingServices.Seed();
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

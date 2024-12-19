@@ -11,7 +11,7 @@ using sales_web_mvc.Data;
 namespace sales_web_mvc.Migrations
 {
     [DbContext(typeof(sales_web_mvcContext))]
-    [Migration("20241217235715_OtherEntities")]
+    [Migration("20241219004207_OtherEntities")]
     partial class OtherEntities
     {
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace sales_web_mvc.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("SalesRecords");
+                    b.ToTable("SalesRecord");
                 });
 
             modelBuilder.Entity("sales_web_mvc.Models.Seller", b =>
@@ -89,7 +89,7 @@ namespace sales_web_mvc.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Sellers");
+                    b.ToTable("Seller");
                 });
 
             modelBuilder.Entity("sales_web_mvc.Models.SalesRecord", b =>
