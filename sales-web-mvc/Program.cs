@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using sales_web_mvc.Data;
 using sales_web_mvc.Services;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace sales_web_mvc
 {
@@ -8,6 +10,14 @@ namespace sales_web_mvc
     {
         public static void Main(string[] args)
         {
+            var enUS = new CultureInfo("en-US");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = new List<CultureInfo> { enUS },
+                SupportedUICultures = new List<CultureInfo> { enUS }
+            };
+
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDbContext<sales_web_mvcContext>(options =>
@@ -48,6 +58,8 @@ namespace sales_web_mvc
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.MapControllerRoute(
                 name: "default",
