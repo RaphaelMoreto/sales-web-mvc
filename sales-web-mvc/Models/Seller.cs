@@ -26,7 +26,7 @@ namespace sales_web_mvc.Models
         [DisplayFormat(DataFormatString = "{0:F2}")]
         [Range(100.0, 50000.0, ErrorMessage = "{0} DEVE SER ENTRE {1} a {2}")]
         public double BaseSalary { get; set; }
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
         public int DepartmentId { get; set; }
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
 
