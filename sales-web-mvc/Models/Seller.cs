@@ -5,18 +5,26 @@ namespace sales_web_mvc.Models
     public class Seller
     {
         public int Id { get; set; }
-        public string Name { get; set; }]
 
+        [Required(ErrorMessage = "{0} OBRIGATÓRIO")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "O {0} DEVE CONTAR ENTRE {2} A {1} CARACTERES")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "{0} OBRIGATÓRIO")]
+        [EmailAddress(ErrorMessage = "INSIRA UM E-MAIL VÁLIDO")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "{0} OBRIGATÓRIO")]
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }
 
+        [Required(ErrorMessage = "{0} OBRIGATÓRIO")]
         [Display(Name = "Base Salary")]
         [DisplayFormat(DataFormatString = "{0:F2}")]
+        [Range(100.0, 50000.0, ErrorMessage = "{0} DEVE SER ENTRE {1} a {2}")]
         public double BaseSalary { get; set; }
         public Department Department { get; set; }
         public int DepartmentId { get; set; }
