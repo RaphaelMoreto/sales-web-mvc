@@ -3,6 +3,7 @@ using sales_web_mvc.Models;
 using sales_web_mvc.Models.ViewModels;
 using sales_web_mvc.Services;
 using sales_web_mvc.Services.Exceptions;
+using System.Diagnostics;
 
 namespace sales_web_mvc.Controllers
 {
@@ -45,14 +46,14 @@ namespace sales_web_mvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID NÃO FORNECIDO"});
             }
 
             var obj = _sellerService.FindById(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID NÃO ENCONTRADO" });
             }
 
             return View(obj);
@@ -70,14 +71,14 @@ namespace sales_web_mvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID NÃO FORNECIDO" });
             }
 
             var obj = _sellerService.FindById(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID NÃO ENCONTRADO" });
             }
 
             return View(obj);
@@ -87,14 +88,14 @@ namespace sales_web_mvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID NÃO FORNECIDO" });
             }
 
             var obj = _sellerService.FindById(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID NÃO ENCONTRADO" });
             }
 
             List<Department> departments = _departmentService.FindAll();
@@ -108,7 +109,7 @@ namespace sales_web_mvc.Controllers
         {
             if (id != seller.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "ID INCOMPATÍVEL" });
             }
 
             try
@@ -116,14 +117,20 @@ namespace sales_web_mvc.Controllers
                 _sellerService.Update(seller);
                 return RedirectToAction(nameof(Index));
             }
-            catch (NotFoundException)
+            catch (ApplicationException e)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-            catch (DbConcurrencyException)
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
             {
-                return BadRequest();
-            }
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+            };
+            return View(viewModel);
         }
     }
 }
