@@ -44,12 +44,13 @@ namespace sales_web_mvc.Services
             {
                 result = result.Where(x => x.Date <= maxDate.Value);
             }
-            return await result
+            var data = await result
                 .Include(x => x.Seller)
                 .Include(x => x.Seller.Department)
                 .OrderByDescending(x => x.Date)
-                .GroupBy(x => x.Seller.Department)
                 .ToListAsync();
+
+            return data.GroupBy(x => x.Seller.Department).ToList();
         }
     }
 }
